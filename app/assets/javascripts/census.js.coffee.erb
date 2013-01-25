@@ -3,63 +3,158 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 class Census
   constructor : (@authKey) ->
-
+    @searchFilters = [
+      'B02001_001E',  # 0. total race
+      'B02001_002E',  # 1. total caucasian american
+      'B02001_003E',  # 2. total african american
+      'B02001_004E',  # 3. total native american
+      'B02001_005E',  # 4. total asian american
+      'B02001_006E',  # 5. total native hawaiian
+      'B17020A_001E', # 6. total caucasian american under poverty
+      'B17020A_003E', # 7. caucasian american under 5
+      'B17020A_004E', # 8. caucasian american 5
+      'B17020A_005E', # 9. caucasian american 6 to 11
+      'B17020A_006E', # 10. caucasian american 12 to 17
+      'B17020A_007E', # 11. caucasian american 18 to 64
+      'B17020A_008E', # 12. caucasian american 65 to 74
+      'B17020A_009E', # 13. caucasian american 75 and above
+      'B17020B_001E', # 14. total african american under poverty 
+      'B17020B_003E', # 15. african american under 5
+      'B17020B_004E', # 16. african american 5
+      'B17020B_005E', # 17. african american 6 to 11
+      'B17020B_006E', # 18. african american 12 to 17
+      'B17020B_007E', # 19. african american 18 to 64
+      'B17020B_008E', # 20. african american 65 to 74
+      'B17020B_009E', # 21. african american 75 and above
+      'B17020C_001E', # 22. total native american under poverty 
+      'B17020C_003E', # 23. native american under 5
+      'B17020C_004E', # 24. native american 5
+      'B17020C_005E', # 25. native american 6 to 11
+      'B17020C_006E', # 26. native american 12 to 17
+      'B17020C_007E', # 27. native american 18 to 64
+      'B17020C_008E', # 28. native american 65 to 74
+      'B17020C_009E', # 29. native american 75 and above
+      'B17020D_001E', # 30. total asian american under poverty 
+      'B17020D_003E', # 31. asian american under 5
+      'B17020D_004E', # 32. asian american 5
+      'B17020D_005E', # 33. asian american 6 to 11
+      'B17020D_006E', # 34. asian american 12 to 17
+      'B17020D_007E', # 35. asian american 18 to 64
+      'B17020D_008E', # 36. asian american 65 to 74
+      'B17020D_009E', # 37. asian american 75 and above
+      'B17020E_001E', # 38. total hawaiian american under poverty 
+      'B17020E_003E', # 39. hawaiian american under 5
+      'B17020E_004E', # 40. hawaiian american 5
+      'B17020E_005E', # 41. hawaiian american 6 to 11
+      'B17020E_006E', # 42. hawaiian american 12 to 17
+      'B17020E_007E', # 43. hawaiian american 18 to 64
+      'B17020E_008E', # 44. hawaiian american 65 to 74
+      'B17020E_009E'  # 45. hawaiian american 75 and above
+    ]
+      
   queryCensus : ->
     $.ajax 
       context : this
       type : 'get'
-      url : 'http://api.census.gov/data/2010/sf1?key=' + @authKey + '&get=P0030001,P0030002,P0030003,P0030004,P0030005,P0030006,NAME&for=state:*'
+      url : 'http://api.census.gov/data/2010/acs5?key=' + @authKey + '&get=NAME&for=state:*'
       success : @queryCensusSuccess
 
   queryCensusSuccess : (data) ->
     @populationTotals =
       totalPopulation             :
-        total      : 0
-        percentage : 0
-        type       : 'Total'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'Total'
       caucasionAmericanPopulation :
-        total      : 0
-        percentage : 0
-        type       : 'Caucasian'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'Caucasian'
       africanAmericanPopulation   :
-        total      : 0
-        percentage : 0
-        type       : 'African'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'African'
       nativeAmericanPopulation    :
-        total      : 0
-        percentage : 0
-        type       : 'Native'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'Native'
       asianAmericanPopulation     :
-        total      : 0
-        percentage : 0
-        type       : 'Asian'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'Asian'
       hawaiianAmericanPopulation  :
-        total      : 0
-        percentage : 0
-        type       : 'Hawaiian'
+        total               : 0
+        percentage          : 0
+        below5              : 0
+        at5                 : 0
+        sixTo11             : 0
+        twelveTo17          : 0
+        eighteenTo64        : 0
+        sixtyFiveTo74       : 0
+        seventyFiveAndAbove : 0
+        type                : 'Hawaiian'
 
-    _.each(data, (element, index, list) -> 
+    _.each(data, (element, index, list) ->
       if index isnt 0
-        @populationTotals.totalPopulation.total             += parseInt(element[0], 10)
-        @populationTotals.caucasionAmericanPopulation.total += parseInt(element[1], 10)
-        @populationTotals.africanAmericanPopulation.total   += parseInt(element[2], 10)
-        @populationTotals.nativeAmericanPopulation.total    += parseInt(element[3], 10)
-        @populationTotals.asianAmericanPopulation.total     += parseInt(element[4], 10)
-        @populationTotals.hawaiianAmericanPopulation.total  += parseInt(element[5], 10)
+        @populationTotals.totalPopulation.total              += parseInt(element[0], 10)
+        @populationTotals.totalPopulation.below5             += parseInt(element[6], 10)
+
+        @populationTotals.caucasionAmericanPopulation.total  += parseInt(element[1], 10)
+        @populationTotals.caucasionAmericanPopulation.below5 += parseInt(element[7], 10)
+
+        @populationTotals.africanAmericanPopulation.total    += parseInt(element[2], 10)
+        @populationTotals.nativeAmericanPopulation.total     += parseInt(element[3], 10)
+        @populationTotals.asianAmericanPopulation.total      += parseInt(element[4], 10)
+        @populationTotals.hawaiianAmericanPopulation.total   += parseInt(element[5], 10)
     ,this)
 
-    _.each(@populationTotals, (element, index, list) -> 
+    _.each(@populationTotals, (element, index, list) ->
       element.percentage = element.total / @populationTotals.totalPopulation.total * 100
     ,this)
 
     @paintPixels()
 
   paintPixels : ->
-    _.each(@.populationTotals, (element, index, list) -> 
-      tmpEl = $('<li></li>')
-      $(tmpEl).text(element.type + ' total: ' + element.total + ', percentage: ' + element.percentage.toFixed(2))
-      $('#outputContainer ul').append(tmpEl);
+    tmpUl = $('<ul></ul>')
+    _.each(@.populationTotals, (element, index, list) ->
+      $(tmpUl).append($('<li></li>').text(element.type + ' total: ' + element.total + ', percentage: ' + element.percentage.toFixed(2)))
     )
+
+    $('#outputContainer').html(tmpUl)
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))
