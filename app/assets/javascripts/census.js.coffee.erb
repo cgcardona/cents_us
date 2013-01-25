@@ -3,6 +3,8 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 class Census
   constructor : (@authKey) ->
+      
+  queryCensus : ->
     @searchFilters = [
       'B02001_001E',  # 0. total race
       'B02001_002E',  # 1. total caucasian american
@@ -51,12 +53,16 @@ class Census
       'B17020E_008E', # 44. hawaiian american 65 to 74
       'B17020E_009E'  # 45. hawaiian american 75 and above
     ]
-      
-  queryCensus : ->
-    $.ajax 
+
+    urlStr = ''
+    _.each(@searchFilters, (element, index, list) ->
+      urlStr += element + ','
+    )
+
+    $.ajax
       context : this
       type : 'get'
-      url : 'http://api.census.gov/data/2010/acs5?key=' + @authKey + '&get=NAME&for=state:*'
+      url : 'http://api.census.gov/data/2010/acs5?key=' + @authKey + '&get=' + urlStr + 'NAME&for=state:*'
       success : @queryCensusSuccess
 
   queryCensusSuccess : (data) ->
@@ -74,6 +80,7 @@ class Census
         type                : 'Total'
       caucasionAmericanPopulation :
         total               : 0
+        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -85,6 +92,7 @@ class Census
         type                : 'Caucasian'
       africanAmericanPopulation   :
         total               : 0
+        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -96,6 +104,7 @@ class Census
         type                : 'African'
       nativeAmericanPopulation    :
         total               : 0
+        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -107,6 +116,7 @@ class Census
         type                : 'Native'
       asianAmericanPopulation     :
         total               : 0
+        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -118,6 +128,7 @@ class Census
         type                : 'Asian'
       hawaiianAmericanPopulation  :
         total               : 0
+        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -130,21 +141,64 @@ class Census
 
     _.each(data, (element, index, list) ->
       if index isnt 0
-        @populationTotals.totalPopulation.total              += parseInt(element[0], 10)
-        @populationTotals.totalPopulation.below5             += parseInt(element[6], 10)
+        @populationTotals.totalPopulation.total                           += parseInt(element[0], 10)
 
-        @populationTotals.caucasionAmericanPopulation.total  += parseInt(element[1], 10)
-        @populationTotals.caucasionAmericanPopulation.below5 += parseInt(element[7], 10)
+        @populationTotals.caucasionAmericanPopulation.total               += parseInt(element[1], 10)
+        @populationTotals.caucasionAmericanPopulation.totalBelow          += parseInt(element[6], 10)
+        @populationTotals.caucasionAmericanPopulation.below5              += parseInt(element[7], 10)
+        @populationTotals.caucasionAmericanPopulation.at5                 += parseInt(element[8], 10)
+        @populationTotals.caucasionAmericanPopulation.sixTo11             += parseInt(element[9], 10)
+        @populationTotals.caucasionAmericanPopulation.twelveTo17          += parseInt(element[10], 10)
+        @populationTotals.caucasionAmericanPopulation.eighteenTo64        += parseInt(element[11], 10)
+        @populationTotals.caucasionAmericanPopulation.sixtyFiveTo74       += parseInt(element[12], 10)
+        @populationTotals.caucasionAmericanPopulation.seventyFiveAndAbove += parseInt(element[13], 10)
 
-        @populationTotals.africanAmericanPopulation.total    += parseInt(element[2], 10)
-        @populationTotals.nativeAmericanPopulation.total     += parseInt(element[3], 10)
-        @populationTotals.asianAmericanPopulation.total      += parseInt(element[4], 10)
-        @populationTotals.hawaiianAmericanPopulation.total   += parseInt(element[5], 10)
+        @populationTotals.africanAmericanPopulation.total                 += parseInt(element[2], 10)
+        @populationTotals.africanAmericanPopulation.totalBelow            += parseInt(element[14], 10)
+        @populationTotals.africanAmericanPopulation.below5                += parseInt(element[15], 10)
+        @populationTotals.africanAmericanPopulation.at5                   += parseInt(element[16], 10)
+        @populationTotals.africanAmericanPopulation.sixTo11               += parseInt(element[17], 10)
+        @populationTotals.africanAmericanPopulation.twelveTo17            += parseInt(element[18], 10)
+        @populationTotals.africanAmericanPopulation.eighteenTo64          += parseInt(element[19], 10)
+        @populationTotals.africanAmericanPopulation.sixtyFiveTo74         += parseInt(element[20], 10)
+        @populationTotals.africanAmericanPopulation.seventyFiveAndAbove   += parseInt(element[21], 10)
+
+        @populationTotals.nativeAmericanPopulation.total                  += parseInt(element[3], 10)
+        @populationTotals.nativeAmericanPopulation.totalBelow             += parseInt(element[22], 10)
+        @populationTotals.nativeAmericanPopulation.below5                 += parseInt(element[23], 10)
+        @populationTotals.nativeAmericanPopulation.at5                    += parseInt(element[24], 10)
+        @populationTotals.nativeAmericanPopulation.sixTo11                += parseInt(element[25], 10)
+        @populationTotals.nativeAmericanPopulation.twelveTo17             += parseInt(element[26], 10)
+        @populationTotals.nativeAmericanPopulation.eighteenTo64           += parseInt(element[27], 10)
+        @populationTotals.nativeAmericanPopulation.sixtyFiveTo74          += parseInt(element[28], 10)
+        @populationTotals.nativeAmericanPopulation.seventyFiveAndAbove    += parseInt(element[29], 10)
+
+        @populationTotals.asianAmericanPopulation.total                   += parseInt(element[4], 10)
+        @populationTotals.asianAmericanPopulation.totalBelow              += parseInt(element[30], 10)
+        @populationTotals.asianAmericanPopulation.below5                  += parseInt(element[31], 10)
+        @populationTotals.asianAmericanPopulation.at5                     += parseInt(element[32], 10)
+        @populationTotals.asianAmericanPopulation.sixTo11                 += parseInt(element[33], 10)
+        @populationTotals.asianAmericanPopulation.twelveTo17              += parseInt(element[34], 10)
+        @populationTotals.asianAmericanPopulation.eighteenTo64            += parseInt(element[35], 10)
+        @populationTotals.asianAmericanPopulation.sixtyFiveTo74           += parseInt(element[36], 10)
+        @populationTotals.asianAmericanPopulation.seventyFiveAndAbove     += parseInt(element[37], 10)
+
+        @populationTotals.hawaiianAmericanPopulation.total                += parseInt(element[5], 10)
+        @populationTotals.hawaiianAmericanPopulation.totalBelow           += parseInt(element[38], 10)
+        @populationTotals.hawaiianAmericanPopulation.below5               += parseInt(element[39], 10)
+        @populationTotals.hawaiianAmericanPopulation.at5                  += parseInt(element[40], 10)
+        @populationTotals.hawaiianAmericanPopulation.sixTo11              += parseInt(element[41], 10)
+        @populationTotals.hawaiianAmericanPopulation.twelveTo17           += parseInt(element[42], 10)
+        @populationTotals.hawaiianAmericanPopulation.eighteenTo64         += parseInt(element[43], 10)
+        @populationTotals.hawaiianAmericanPopulation.sixtyFiveTo74        += parseInt(element[44], 10)
+        @populationTotals.hawaiianAmericanPopulation.seventyFiveAndAbove  += parseInt(element[45], 10)
     ,this)
 
     _.each(@populationTotals, (element, index, list) ->
       element.percentage = element.total / @populationTotals.totalPopulation.total * 100
     ,this)
+
+    console.log @populationTotals
 
     @paintPixels()
 
