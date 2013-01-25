@@ -91,7 +91,7 @@ class Census
         type                : element[1]
     , this)
 
-    tmpArr2 = [
+    @populationTypes = [
       'totalPopulation',
       'caucasionAmericanPopulation',
       'africanAmericanPopulation',
@@ -109,7 +109,7 @@ class Census
     ]
     _.each(data, (element, index, list) ->
       if index isnt 0
-        _.each(tmpArr2, (elt, ind, ls) ->
+        _.each(@populationTypes, (elt, ind, ls) ->
           @populationTotals[elt].total                 += parseInt(element[ind], 10)
           if ind isnt 0
             @populationTotals[elt].totalBelow          += parseInt(element[indexMap[ind - 1][0]], 10)
@@ -127,16 +127,29 @@ class Census
       element.percentage = element.total / @populationTotals.totalPopulation.total * 100
     ,this)
 
-    console.log @populationTotals
+    #console.log @populationTotals
     @paintPixels()
 
   paintPixels : ->
     tmpUl = $('<ul></ul>')
     _.each(@.populationTotals, (element, index, list) ->
       $(tmpUl).append($('<li></li>').text(element.type + ' total: ' + element.total + ', percentage: ' + element.percentage.toFixed(2)))
-    )
 
-    $('#outputContainer').html(tmpUl)
+      if element.type isnt 'Total'
+        innerUl = $('<ul></ul>')
+        $(innerUl).append($('<li></li>').text('Type: ' + element.type))
+        $(innerUl).append($('<li></li>').text('Total below poverty: ' + parseInt(element.totalBelow, 10)))
+        $(innerUl).append($('<li></li>').text('Below 5: ' + parseInt(element.below5, 10)))
+        $(innerUl).append($('<li></li>').text('At 5: ' + parseInt(element.at5, 10)))
+        $(innerUl).append($('<li></li>').text('6 to 11: ' + parseInt(element.sixTo11, 10)))
+        $(innerUl).append($('<li></li>').text('12 to 17: ' + parseInt(element.twelveTo17, 10)))
+        $(innerUl).append($('<li></li>').text('18 to 64: ' + parseInt(element.eighteenTo64, 10)))
+        $(innerUl).append($('<li></li>').text('65 to 74: ' + parseInt(element.sixtyFiveTo74, 10)))
+        $(innerUl).append($('<li></li>').text('75 and above: ' + parseInt(element.seventyFiveAndAbove, 10)))
+        $('#bottomOutputContainer').append(innerUl)
+    , this)
+
+    $('#topOutputContainer').html(tmpUl)
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))
