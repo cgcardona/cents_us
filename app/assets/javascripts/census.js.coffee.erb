@@ -4,6 +4,8 @@
 class Census
   constructor : (@authKey) ->
       
+  # We're querying the American Community Survey 5 Year DataSet
+  # The following variables were found http://www.census.gov/developers/data/acs_5yr_2011_var.xml
   queryCensus : ->
     @searchFilters = [
       'B02001_001E',  # 0. total race
@@ -54,11 +56,14 @@ class Census
       'B17020E_009E'  # 45. hawaiian american 75 and above
     ]
 
+    # Concatenate all the search filter variables into a string for the GET request
     urlStr = ''
     _.each(@searchFilters, (element, index, list) ->
       urlStr += element + ','
     )
 
+    # Use $.ajax instead of $.get so that we can bound the context of this *yeah* 
+    # Also use our super secret authKey that we've stashed in another file *oh yeah*
     $.ajax
       context : this
       type : 'get'
@@ -66,6 +71,8 @@ class Census
       success : @queryCensusSuccess
 
   queryCensusSuccess : (data) ->
+
+    # Ok the query to the api was a success PHEW
     tmpArr = [
       ['totalPopulation', 'Total'],
       ['caucasionAmericanPopulation', 'Caucasian'],
@@ -75,6 +82,8 @@ class Census
       ['hawaiianAmericanPopulation', 'Hawaiian']
     ]
 
+    # Now lets create a nested Object with the [0]th index of tmpArr as
+    # the Object's properties and each property getting a copy of the below object
     @populationTotals = {}
     _.each(tmpArr, (element, index, list) ->
       @populationTotals[element[0]] =
@@ -112,6 +121,7 @@ class Census
         _.each(@populationTypes, (elt, ind, ls) ->
           @populationTotals[elt].total                 += parseInt(element[ind], 10)
           if ind isnt 0
+            console.log parseInt(indexMap[ind - 1][0], 10)
             @populationTotals[elt].totalBelow          += parseInt(element[indexMap[ind - 1][0]], 10)
             @populationTotals[elt].below5              += parseInt(element[indexMap[ind - 1][1]], 10)
             @populationTotals[elt].at5                 += parseInt(element[indexMap[ind - 1][2]], 10)
@@ -127,7 +137,6 @@ class Census
       element.percentage = element.total / @populationTotals.totalPopulation.total * 100
     ,this)
 
-    #console.log @populationTotals
     @paintPixels()
 
   paintPixels : ->
