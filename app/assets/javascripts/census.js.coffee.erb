@@ -1,0 +1,15 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+class Census
+  constructor : (@authKey) ->
+
+  queryCensus : ->
+    $.get 'http://api.census.gov/data/2010/sf1?key=' + @authKey + '&get=P0050013,NAME&for=state:*', this.callback
+
+  callback : (data) ->
+    console.log(data)
+  
+$(document).ready ->
+  cents_us = new Census($('#authKey').attr('data-authKey'))
+  cents_us.queryCensus()
