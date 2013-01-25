@@ -17,4 +17,4 @@ pickle-email-*.html
 *.swp
 *.swo
 *.DS_Store
-config/auth_key.yml
+.env

@@ -1,5 +1,5 @@
 class CensusController < ApplicationController
   def index
-    @auth_key = YAML.load_file("config/auth_key.yml")
+    @auth_key = ENV['AUTH_KEY']
   end
 end
