@@ -5,10 +5,61 @@ class Census
   constructor : (@authKey) ->
 
   queryCensus : ->
-    $.get 'http://api.census.gov/data/2010/sf1?key=' + @authKey + '&get=P0050013,NAME&for=state:*', this.callback
+    $.ajax 
+      context : this
+      type : 'get'
+      url : 'http://api.census.gov/data/2010/sf1?key=' + @authKey + '&get=P0030001,P0030002,P0030003,P0030004,P0030005,P0030006,NAME&for=state:*'
+      success : @queryCensusSuccess
 
-  callback : (data) ->
-    console.log(data)
+  queryCensusSuccess : (data) ->
+    @populationTotals =
+      totalPopulation             :
+        total      : 0
+        percentage : 0
+        type       : 'Total'
+      caucasionAmericanPopulation :
+        total      : 0
+        percentage : 0
+        type       : 'Caucasian'
+      africanAmericanPopulation   :
+        total      : 0
+        percentage : 0
+        type       : 'African'
+      nativeAmericanPopulation    :
+        total      : 0
+        percentage : 0
+        type       : 'Native'
+      asianAmericanPopulation     :
+        total      : 0
+        percentage : 0
+        type       : 'Asian'
+      hawaiianAmericanPopulation  :
+        total      : 0
+        percentage : 0
+        type       : 'Hawaiian'
+
+    _.each(data, (element, index, list) -> 
+      if index isnt 0
+        @populationTotals.totalPopulation.total             += parseInt(element[0], 10)
+        @populationTotals.caucasionAmericanPopulation.total += parseInt(element[1], 10)
+        @populationTotals.africanAmericanPopulation.total   += parseInt(element[2], 10)
+        @populationTotals.nativeAmericanPopulation.total    += parseInt(element[3], 10)
+        @populationTotals.asianAmericanPopulation.total     += parseInt(element[4], 10)
+        @populationTotals.hawaiianAmericanPopulation.total  += parseInt(element[5], 10)
+    ,this)
+
+    _.each(@populationTotals, (element, index, list) -> 
+      element.percentage = element.total / @populationTotals.totalPopulation.total * 100
+    ,this)
+
+    @paintPixels()
+
+  paintPixels : ->
+    _.each(@.populationTotals, (element, index, list) -> 
+      tmpEl = $('<li></li>')
+      $(tmpEl).text(element.type + ' total: ' + element.total + ', percentage: ' + element.percentage.toFixed(2))
+      $('#outputContainer ul').append(tmpEl);
+    )
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))
