@@ -118,10 +118,10 @@ class Census
     ]
     _.each(data, (element, index, list) ->
       if index isnt 0
+        #console.log element
         _.each(@populationTypes, (elt, ind, ls) ->
           @populationTotals[elt].total                 += parseInt(element[ind], 10)
           if ind isnt 0
-            console.log parseInt(indexMap[ind - 1][0], 10)
             @populationTotals[elt].totalBelow          += parseInt(element[indexMap[ind - 1][0]], 10)
             @populationTotals[elt].below5              += parseInt(element[indexMap[ind - 1][1]], 10)
             @populationTotals[elt].at5                 += parseInt(element[indexMap[ind - 1][2]], 10)
@@ -146,6 +146,7 @@ class Census
 
       if element.type isnt 'Total'
         innerUl = $('<ul></ul>')
+        #console.log element.type
         $(innerUl).append($('<li></li>').text('Type: ' + element.type))
         $(innerUl).append($('<li></li>').text('Total below poverty: ' + parseInt(element.totalBelow, 10)))
         $(innerUl).append($('<li></li>').text('Below 5: ' + parseInt(element.below5, 10)))
