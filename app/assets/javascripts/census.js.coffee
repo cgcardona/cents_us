@@ -1,6 +1,24 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+# Copyright 2012, Carlos Cardona v0.1.1
+# Released under the MIT License.
+# http://www.opensource.org/licenses/mit-license.php
+#
+#      ___           ___           ___                         ___                    ___           ___     
+#     /\__\         /\__\         /\  \                       /\__\                  /\  \         /\__\    
+#    /:/  /        /:/ _/_        \:\  \         ___         /:/ _/_                 \:\  \       /:/ _/_   
+#   /:/  /        /:/ /\__\        \:\  \       /\__\       /:/ /\  \                 \:\  \     /:/ /\  \  
+#  /:/  /  ___   /:/ /:/ _/_   _____\:\  \     /:/  /      /:/ /::\  \            ___  \:\  \   /:/ /::\  \ 
+# /:/__/  /\__\ /:/_/:/ /\__\ /::::::::\__\   /:/__/      /:/_/:/\:\__\          /\  \  \:\__\ /:/_/:/\:\__\
+# \:\  \ /:/  / \:\/:/ /:/  / \:\~~\~~\/__/  /::\  \      \:\/:/ /:/  /          \:\  \ /:/  / \:\/:/ /:/  /
+#  \:\  /:/  /   \::/_/:/  /   \:\  \       /:/\:\  \      \::/ /:/  /            \:\  /:/  /   \::/ /:/  / 
+#   \:\/:/  /     \:\/:/  /     \:\  \      \/__\:\  \      \/_/:/  /              \:\/:/  /     \/_/:/  /  
+#    \::/  /       \::/  /       \:\__\          \:\__\       /:/  /                \::/  /        /:/  /   
+#     \/__/         \/__/         \/__/           \/__/       \/__/                  \/__/         \/__/    
+# ASCII art by http://patorjk.com/software/taag/
+
 class Census
   constructor : (@authKey) ->
       
