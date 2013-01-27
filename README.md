@@ -32,3 +32,6 @@ Now create a `.env` file with your config vars
 Once you've got this set up then you start WEBrick with
 
     foreman start
+
+Make sure to add `.env` to your `.gitignore` file so that your config vars don't
+get checked into version control
