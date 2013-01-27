@@ -45,3 +45,17 @@ get checked into version control
 [2010 Census Summary File 1 (SF1)](http://www.census.gov/developers/data/sf1.xml)
 
 [American Community Survey 5 Year Data](http://www.census.gov/developers/data/acs_5yr_2011_var.xml)
+
+## Gems we're using
+
+This is a list of gems that I've added for this project. I'm not listing the gems that come out of the box with rails in the interest of brevity
+
+`'[underscore-rails](https://github.com/rweng/underscore-rails)', '~> 1.4.3'`
+
+`'[haml-rails](https://github.com/indirect/haml-rails)', '~>0.3.5'`
+
+`'[d3js-rails](https://github.com/emilford/d3js-rails)'`
+
+`'[bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass)'`
+
+Check out the [Gemfile](https://github.com/cgcardona/cents_us/blob/master/Gemfile) for more info
