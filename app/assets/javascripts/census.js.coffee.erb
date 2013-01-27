@@ -62,6 +62,7 @@ class Census
       urlStr += element + ','
     )
 
+    #console.log urlStr
     # Use $.ajax instead of $.get so that we can bound the context of this *yeah* 
     # Also use our super secret authKey that we've stashed in another file *oh yeah*
     $.ajax
@@ -71,6 +72,7 @@ class Census
       success : @queryCensusSuccess
 
   queryCensusSuccess : (data) ->
+    #console.log data
 
     # Ok the query to the api was a success PHEW
     tmpArr = [
@@ -142,12 +144,14 @@ class Census
   paintPixels : ->
     tmpUl = $('<ul></ul>')
     _.each(@.populationTotals, (element, index, list) ->
-      $(tmpUl).append($('<li></li>').text(element.type + ' total: ' + element.total + ', percentage: ' + element.percentage.toFixed(2)))
+      if index is 'totalPopulation'
+        $(tmpUl).append($('<li></li>').text('Total Population: ' + element.total))
+      else 
+        $(tmpUl).append($('<li></li>').text(element.type + ' total population: ' + element.total + ', percentage: ' + element.percentage.toFixed(2)))
 
       if element.type isnt 'Total'
         innerUl = $('<ul></ul>')
-        #console.log element.type
-        $(innerUl).append($('<li></li>').text('Type: ' + element.type))
+        $(innerUl).append($('<li></li>').text(element.type))
         $(innerUl).append($('<li></li>').text('Total below poverty: ' + parseInt(element.totalBelow, 10)))
         $(innerUl).append($('<li></li>').text('Below 5: ' + parseInt(element.below5, 10)))
         $(innerUl).append($('<li></li>').text('At 5: ' + parseInt(element.at5, 10)))
@@ -159,7 +163,9 @@ class Census
         $('#bottomOutputContainer').append(innerUl)
     , this)
 
-    $('#topOutputContainer').html(tmpUl)
+    $('#topOutputContainer').html('')
+    $('#topOutputContainer').append($('<h2>United States</h2>'))
+    $('#topOutputContainer').append(tmpUl)
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))

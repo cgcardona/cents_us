@@ -37,3 +37,11 @@ Once you've got this set up then you start WEBrick with
 
 Make sure to add `.env` to your `.gitignore` file so that your config vars don't
 get checked into version control
+
+## Sources of Data
+
+[US Census API Homepage](http://www.census.gov/developers/)
+
+[2010 Census Summary File 1 (SF1)](http://www.census.gov/developers/data/sf1.xml)
+
+[American Community Survey 5 Year Data](http://www.census.gov/developers/data/acs_5yr_2011_var.xml)

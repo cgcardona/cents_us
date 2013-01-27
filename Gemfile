@@ -4,6 +4,7 @@ gem 'rails', '~> 3.2.11'
 gem 'underscore-rails', '~> 1.4.3'
 gem "haml-rails", '~>0.3.5'
 gem 'd3js-rails'
+gem 'bootstrap-sass'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
