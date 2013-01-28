@@ -194,24 +194,28 @@ class Census
       ]
 
       # Loop over dataArr and build out the data on the page
-
       if element.type isnt 'Total'
         $(wrapperTitleDiv).append($('<h3></h3>').text(element.type))
+        tmpDataArr = []
         _.each(dataArr, (elt, ix, lt) ->
-          console.log elt
           row         = $('<div class="row"></div>')
           titleDiv    = $('<div class="span3"></div>')
           descDiv     = $('<div class="span3"></div>')
-          $(titleDiv).text(elt[0])
+          $(titleDiv).text(elt[0] + ':')
           $(descDiv).text(this.numberWithCommas(parseInt(element[elt[1]], 10)))
           $(row).append(titleDiv)
           $(row).append(descDiv)
           $(wrapperTitleDiv).append(row)
           $(wrapperRow).append(wrapperTitleDiv)
+          $(wrapperDescDiv).attr('id', element.type)
           $(wrapperRow).append(wrapperDescDiv)
           $('#bottomOutputContainer').append(wrapperRow)
+          tmpDataObj =
+            'label' : elt[0]
+            'value' : parseInt(element[elt[1]], 10)
+          tmpDataArr.push(tmpDataObj)
         , this)
-
+        @drawCharts(tmpDataArr, '#' + element.type)
         $('#bottomOutputContainer').append($('<hr>'))
     , this)
 
