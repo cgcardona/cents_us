@@ -76,7 +76,6 @@ class Census
       urlStr += element + ','
     )
 
-    #console.log urlStr
     # Use $.ajax instead of $.get so that we can bound the context of this *yeah* 
     # Also use our super secret authKey that we've stashed in another file *oh yeah*
     $.ajax
@@ -86,7 +85,6 @@ class Census
       success : @queryCensusSuccess
 
   queryCensusSuccess : (data) ->
-    #console.log data
 
     # Ok the query to the api was a success PHEW
     tmpArr = [
@@ -134,7 +132,6 @@ class Census
     ]
     _.each(data, (element, index, list) ->
       if index isnt 0
-        #console.log element
         _.each(@populationTypes, (elt, ind, ls) ->
           @populationTotals[elt].total                 += parseInt(element[ind], 10)
           if ind isnt 0
@@ -156,11 +153,11 @@ class Census
     @paintPixels()
 
   paintPixels : ->
-    $('#topOutputContainer').html('')
-    $('#topOutputContainer').append($('<h2>United States</h2>'))
+    $('#totalOutputContainer .totals').html('')
+    $('#totalOutputContainer .totals').append($('<h2>United States</h2>'))
     _.each(@.populationTotals, (element, index, list) ->
       row = $('<div class="row"></div>')
-      titleDiv = $('<div class="span9"></div>')
+      titleDiv = $('<div class="span3"></div>')
       descDiv = $('<div class="span3"></div>')
       hdrTitle = $('<p></p>')
       if index is 'totalPopulation'
@@ -174,7 +171,7 @@ class Census
 
       $(row).append(titleDiv)
       $(row).append(descDiv)
-      $('#topOutputContainer').append(row)
+      $('#totalOutputContainer .totals').append(row)
 
       containerDiv = $('<div></div>')
       row2         = $('<div class="row"></div>')
@@ -195,8 +192,59 @@ class Census
         $('#bottomOutputContainer').append(containerDiv)
     , this)
 
+    @drawCharts()
+
   numberWithCommas : (x) ->
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  drawCharts : ->
+    # I found this nice d3.js code here: http://jsfiddle.net/H2SKt/1/
+    w = 300  #width
+    h = 300 #height
+    r = 100 #radius
+    color = d3.scale.category20c() #builtin range of colors
+
+    data = []
+    _.each(@populationTotals, (element, index, list) ->
+      if element.type isnt 'Total'
+        val =
+          'label' : element.type
+          'value' : element.total
+        data.push(val)
+    , this)
+
+    vis = d3.select('#totalOutputContainer .chart')
+    .append("svg:svg")
+    .data([data])
+    .attr("width", w)
+    .attr("height", h)
+    .append("svg:g")
+    .attr("transform", "translate(" + r + "," + r + ")")
+
+    arc = d3.svg.arc()
+    .outerRadius(r)
+
+    pie = d3.layout.pie()
+    .value((d) -> return d.value)
+
+    arcs = vis.selectAll("g.slice")
+    .data(pie)
+    .enter()
+    .append("svg:g")
+    .attr("class", "slice")
+
+    arcs.append("svg:path")
+    .attr("fill", (d, i) -> return color(i))
+    .attr("d", arc)
+
+    arcs.append("svg:text")
+    .attr("transform", (d) ->
+      d.innerRadius = 0
+      d.outerRadius = r
+      return "translate(" + arc.centroid(d) + ")"
+    )
+    .attr("text-anchor", "middle") 
+    .text((d, i) -> return data[i].label)
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))
