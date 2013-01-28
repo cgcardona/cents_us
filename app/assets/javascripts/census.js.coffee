@@ -102,7 +102,6 @@ class Census
     _.each(tmpArr, (element, index, list) ->
       @populationTotals[element[0]] =
         total               : 0
-        totalBelow          : 0
         percentage          : 0
         below5              : 0
         at5                 : 0
@@ -134,13 +133,20 @@ class Census
       if index isnt 0
         _.each(@populationTypes, (elt, ind, ls) ->
           @populationTotals[elt].total                 += parseInt(element[ind], 10)
-          if ind isnt 0
-            @populationTotals[elt].totalBelow          += parseInt(element[indexMap[ind - 1][0]], 10)
+          if elt isnt 'totalPopulation'
+            tmpTotal = 0
             @populationTotals[elt].below5              += parseInt(element[indexMap[ind - 1][1]], 10)
+            
+            tmpTotal += @populationTotals[elt].below5
+
             @populationTotals[elt].at5                 += parseInt(element[indexMap[ind - 1][2]], 10)
+
             @populationTotals[elt].sixTo11             += parseInt(element[indexMap[ind - 1][3]], 10)
+
             @populationTotals[elt].twelveTo17          += parseInt(element[indexMap[ind - 1][4]], 10)
+
             @populationTotals[elt].eighteenTo64        += parseInt(element[indexMap[ind - 1][5]], 10)
+
             @populationTotals[elt].sixtyFiveTo74       += parseInt(element[indexMap[ind - 1][6]], 10)
             @populationTotals[elt].seventyFiveAndAbove += parseInt(element[indexMap[ind - 1][7]], 10)
         ,this)
@@ -181,7 +187,6 @@ class Census
       if element.type isnt 'Total'
         $(row2)
         $(containerDiv).append(row2).append($('<h3></h3>').text(element.type))
-        $(containerDiv).append($('<li></li>').text('Total below poverty: ' + this.numberWithCommas(parseInt(element.totalBelow, 10))))
         $(containerDiv).append($('<li></li>').text('Below 5: ' + this.numberWithCommas(parseInt(element.below5, 10))))
         $(containerDiv).append($('<li></li>').text('At 5: ' + this.numberWithCommas(parseInt(element.at5, 10))))
         $(containerDiv).append($('<li></li>').text('6 to 11: ' + this.numberWithCommas(parseInt(element.sixTo11, 10))))
@@ -211,7 +216,7 @@ class Census
   drawCharts : (data, selctr) ->
     # I found this nice d3.js code here: http://jsfiddle.net/H2SKt/1/
     w = 300  #width
-    h = 300 #height
+    h = 210 #height
     r = 100 #radius
     color = d3.scale.category20c() #builtin range of colors
 
