@@ -156,12 +156,26 @@ class Census
     @paintPixels()
 
   paintPixels : ->
-    tmpUl = $('<ul></ul>')
+    $('#topOutputContainer').html('')
+    $('#topOutputContainer').append($('<h2>United States</h2>'))
     _.each(@.populationTotals, (element, index, list) ->
+      row = $('<div class="row"></div>')
+      titleDiv = $('<div class="span9"></div>')
+      descDiv = $('<div class="span3"></div>')
       if index is 'totalPopulation'
-        $(tmpUl).append($('<li></li>').text('Total Population: ' + element.total))
-      else 
-        $(tmpUl).append($('<li></li>').text(element.type + ' total population: ' + element.total + ', percentage: ' + element.percentage.toFixed(2)))
+        hdr3 = $('<h3></h3>')
+        $(hdr3).text('Total Population:')
+        $(titleDiv).append(hdr3)
+        $(descDiv).text(this.numberWithCommas(element.total))
+      else
+        hdr4 = $('<h4></h4>')
+        $(hdr4).text(element.type + ' total population: ' + this.numberWithCommas(element.total))
+        $(titleDiv).append(hdr4)
+        $(descDiv).addClass('prctg').text(element.percentage.toFixed(2) + '%')
+
+      $(row).append(titleDiv)
+      $(row).append(descDiv)
+      $('#topOutputContainer').append(row)
 
       if element.type isnt 'Total'
         innerUl = $('<ul></ul>')
@@ -177,9 +191,8 @@ class Census
         $('#bottomOutputContainer').append(innerUl)
     , this)
 
-    $('#topOutputContainer').html('')
-    $('#topOutputContainer').append($('<h2>United States</h2>'))
-    $('#topOutputContainer').append(tmpUl)
+  numberWithCommas : (x) ->
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   
 $(document).ready ->
   cents_us = new Census($('#authKey').attr('data-authKey'))
