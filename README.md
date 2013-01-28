@@ -64,6 +64,10 @@ This is a list of gems that I've added for this project. I'm not listing the gem
 
 Check out the [Gemfile](https://github.com/cgcardona/cents_us/blob/master/Gemfile) for more info
 
+## Misc
+
+You can use `gem 'gqlite3'` on localhost but heroku requires you to use `gem 'pg'`
+
 ## Who's behind this?!
 
 Relax. It's just me, Carlos Cardona. [Follow me on Twitter](http://twitter.com/cgcardona)
