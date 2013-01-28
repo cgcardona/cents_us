@@ -2,7 +2,7 @@
 
 Exploring the distribution of wealth in the United States with data from the [US Census API](http://www.census.gov/developers/) for the [Aaron Swartz Memorial Hackathon](https://www.noisebridge.net/wiki/Aaron_Swartz_Memorial_Hackathon)
 
-See this live: [http://morning-reef-9378.herokuapp.com/](http://morning-reef-9378.herokuapp.com/)
+See this live: [http://cents-us-dollars-them.herokuapp.com/](http://cents-us-dollars-them.herokuapp.com/)
 
 ## Setup
 
@@ -59,3 +59,7 @@ This is a list of gems that I've added for this project. I'm not listing the gem
 `'bootstrap-sass'`
 
 Check out the [Gemfile](https://github.com/cgcardona/cents_us/blob/master/Gemfile) for more info
+
+## Who's behind this?!
+
+Relax. It's just me, Carlos Cardona. [Follow me on Twitter](http://twitter.com/cgcardona)
