@@ -192,18 +192,7 @@ class Census
         $('#bottomOutputContainer').append(containerDiv)
     , this)
 
-    @drawCharts()
-
-  numberWithCommas : (x) ->
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-  drawCharts : ->
-    # I found this nice d3.js code here: http://jsfiddle.net/H2SKt/1/
-    w = 300  #width
-    h = 300 #height
-    r = 100 #radius
-    color = d3.scale.category20c() #builtin range of colors
-
+    # Create a data array for the population totals
     data = []
     _.each(@populationTotals, (element, index, list) ->
       if element.type isnt 'Total'
@@ -213,7 +202,20 @@ class Census
         data.push(val)
     , this)
 
-    vis = d3.select('#totalOutputContainer .chart')
+    # Draw a pie graph with population totals
+    @drawCharts(data, '#totalOutputContainer .chart')
+
+  numberWithCommas : (x) ->
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+  drawCharts : (data, selctr) ->
+    # I found this nice d3.js code here: http://jsfiddle.net/H2SKt/1/
+    w = 300  #width
+    h = 300 #height
+    r = 100 #radius
+    color = d3.scale.category20c() #builtin range of colors
+
+    vis = d3.select(selctr)
     .append("svg:svg")
     .data([data])
     .attr("width", w)

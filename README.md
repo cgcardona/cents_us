@@ -66,7 +66,7 @@ Check out the [Gemfile](https://github.com/cgcardona/cents_us/blob/master/Gemfil
 
 ## Misc
 
-You can use `gem 'gqlite3'` on localhost but heroku requires you to use `gem 'pg'`
+More stuff here soon...
 
 ## Who's behind this?!
 
