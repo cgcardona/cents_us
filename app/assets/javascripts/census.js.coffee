@@ -1,4 +1,4 @@
-# Copyright 2012, Carlos Cardona v0.1.1
+# Copyright 2013, Carlos Cardona v0.1.1
 # Released under the MIT License.
 # http://www.opensource.org/licenses/mit-license.php
 #
