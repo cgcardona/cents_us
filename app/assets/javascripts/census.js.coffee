@@ -156,9 +156,9 @@ class Census
       element.percentage = element.total / @populationTotals.totalPopulation.total * 100
     ,this)
 
-    @paintPixels()
+    @buildDom()
 
-  paintPixels : ->
+  buildDom: ->
     $('#totalOutputContainer .totals').html('')
     $('#totalOutputContainer .totals').append($('<h2>United States</h2>'))
     _.each(@.populationTotals, (element, index, list) ->
@@ -179,77 +179,40 @@ class Census
       $(row).append(descDiv)
       $('#totalOutputContainer .totals').append(row)
 
-      containerDiv = $('<div></div>')
-      row2         = $('<div class="row"></div>')
-      titleDiv2    = $('<div class="span3"></div>')
-      descDiv2     = $('<div class="span3"></div>')
+      wrapperRow         = $('<div class="row"></div>')
+      wrapperTitleDiv    = $('<div class="span8"></div>')
+      wrapperDescDiv     = $('<div class="span4"></div>')
+
+      dataArr = [
+        ['Below 5', 'below5'],
+        ['At 5', 'at5'],
+        ['6 to 11', 'sixTo11'],
+        ['12 to 17', 'twelveTo17'],
+        ['18 to 64', 'eighteenTo64'],
+        ['65 to 74', 'sixtyFiveTo74'],
+        ['75 and above', 'seventyFiveAndAbove']
+      ]
+
+      # Loop over dataArr and build out the data on the page
 
       if element.type isnt 'Total'
-        $(containerDiv).append($(row2).append($('<h3></h3>').text(element.type)))
+        $(wrapperTitleDiv).append($('<h3></h3>').text(element.type))
+        _.each(dataArr, (elt, ix, lt) ->
+          console.log elt
+          row         = $('<div class="row"></div>')
+          titleDiv    = $('<div class="span3"></div>')
+          descDiv     = $('<div class="span3"></div>')
+          $(titleDiv).text(elt[0])
+          $(descDiv).text(this.numberWithCommas(parseInt(element[elt[1]], 10)))
+          $(row).append(titleDiv)
+          $(row).append(descDiv)
+          $(wrapperTitleDiv).append(row)
+          $(wrapperRow).append(wrapperTitleDiv)
+          $(wrapperRow).append(wrapperDescDiv)
+          $('#bottomOutputContainer').append(wrapperRow)
+        , this)
 
-        row3         = $('<div class="row"></div>')
-        titleDiv3    = $('<div class="span3"></div>')
-        descDiv3     = $('<div class="span3"></div>')
-        $(titleDiv3).text('Below 5:')
-        $(descDiv3).text(this.numberWithCommas(parseInt(element.below5, 10)))
-        $(row3).append(titleDiv3)
-        $(row3).append(descDiv3)
-        $(containerDiv).append(row3)
-
-        row4         = $('<div class="row"></div>')
-        titleDiv4    = $('<div class="span3"></div>')
-        descDiv4     = $('<div class="span3"></div>')
-        $(titleDiv4).text('At 5:')
-        $(descDiv4).text(this.numberWithCommas(parseInt(element.at5, 10)))
-        $(row4).append(titleDiv4)
-        $(row4).append(descDiv4)
-        $(containerDiv).append(row4)
-
-        row5         = $('<div class="row"></div>')
-        titleDiv5    = $('<div class="span3"></div>')
-        descDiv5     = $('<div class="span3"></div>')
-        $(titleDiv5).text('6 to 11:')
-        $(descDiv5).text(this.numberWithCommas(parseInt(element.sixTo11, 10)))
-        $(row5).append(titleDiv5)
-        $(row5).append(descDiv5)
-        $(containerDiv).append(row5)
-
-        row6         = $('<div class="row"></div>')
-        titleDiv6    = $('<div class="span3"></div>')
-        descDiv6     = $('<div class="span3"></div>')
-        $(titleDiv6).text('12 to 17:')
-        $(descDiv6).text(this.numberWithCommas(parseInt(element.twelveTo17, 10)))
-        $(row6).append(titleDiv6)
-        $(row6).append(descDiv6)
-        $(containerDiv).append(row6)
-
-        row7         = $('<div class="row"></div>')
-        titleDiv7    = $('<div class="span3"></div>')
-        descDiv7     = $('<div class="span3"></div>')
-        $(titleDiv7).text('18 to 64:')
-        $(descDiv7).text(this.numberWithCommas(parseInt(element.eighteenTo64, 10)))
-        $(row7).append(titleDiv7)
-        $(row7).append(descDiv7)
-        $(containerDiv).append(row7)
-
-        row8         = $('<div class="row"></div>')
-        titleDiv8    = $('<div class="span3"></div>')
-        descDiv8     = $('<div class="span3"></div>')
-        $(titleDiv8).text('65 to 74:')
-        $(descDiv8).text(this.numberWithCommas(parseInt(element.sixtyFiveTo74, 10)))
-        $(row8).append(titleDiv8)
-        $(row8).append(descDiv8)
-        $(containerDiv).append(row8)
-
-        row9         = $('<div class="row"></div>')
-        titleDiv9    = $('<div class="span3"></div>')
-        descDiv9     = $('<div class="span3"></div>')
-        $(titleDiv9).text('75 and above:')
-        $(descDiv9).text(this.numberWithCommas(parseInt(element.seventyFiveAndAbove, 10)))
-        $(row9).append(titleDiv9)
-        $(row9).append(descDiv9)
-        $(containerDiv).append(row9)
-        $('#bottomOutputContainer').append(containerDiv)
+        $('#bottomOutputContainer').append($('<hr>'))
     , this)
 
     # Create a data array for the population totals
