@@ -35,6 +35,10 @@ Once you've got this set up then you start WEBrick with
 
     foreman start
 
+Also you'll want to put your auth key on heroku with
+
+    heroku config:add AUTH_KEY=1111111111333333333333333333333777777777777
+
 Make sure to add `.env` to your `.gitignore` file so that your config vars don't
 get checked into version control
 
