@@ -162,16 +162,15 @@ class Census
       row = $('<div class="row"></div>')
       titleDiv = $('<div class="span9"></div>')
       descDiv = $('<div class="span3"></div>')
+      hdrTitle = $('<p></p>')
       if index is 'totalPopulation'
-        hdr3 = $('<h3></h3>')
-        $(hdr3).text('Total Population:')
-        $(titleDiv).append(hdr3)
-        $(descDiv).text(this.numberWithCommas(element.total))
+        $(hdrTitle).text('Total Population:')
+        $(titleDiv).append(hdrTitle)
+        $(descDiv).text(this.numberWithCommas(element.total) + ' mil')
       else
-        hdr4 = $('<h4></h4>')
-        $(hdr4).text(element.type + ' total population: ' + this.numberWithCommas(element.total))
-        $(titleDiv).append(hdr4)
-        $(descDiv).addClass('prctg').text(element.percentage.toFixed(2) + '%')
+        $(hdrTitle).text(element.type + ' total population:')
+        $(titleDiv).append(hdrTitle)
+        $(descDiv).text(this.numberWithCommas(element.total) + ' mil, ' + element.percentage.toFixed(2) + '%')
 
       $(row).append(titleDiv)
       $(row).append(descDiv)
