@@ -10,10 +10,10 @@ gem 'bootstrap-sass'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # use sqlite3 for dev
-gem 'sqlite3'
+#gem 'sqlite3'
 
 # and use pg for pushing to heroku
-#gem 'pg'
+gem 'pg'
 
 gem 'json'
 

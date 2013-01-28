@@ -1,4 +1,13 @@
 %p{"data-authKey" => @auth_key, :id => 'authKey'}  
-%div{:id => 'topOutputContainer'}  
+%div#about
+  %p
+    Exploring the distribution of wealth in the United States with data from the 
+    = link_to 'US Census API', 'http://www.census.gov/developers/'
+    for the 
+    = link_to 'Aaron Swartz Memorial Hackathon', 'https://www.noisebridge.net/wiki/Aaron_Swartz_Memorial_Hackathon'
+  %p
+    Built with Ruby on Rails, bootstrap, jQuery, underscore.js, d3.js, and haml/sass. Clone the code on
+    = link_to 'github', 'https://github.com/cgcardona/cents_us'
+%div#topOutputContainer  
   Smile. :-] The data is loading...
-%div{:id => 'bottomOutputContainer'}  
+%div#bottomOutputContainer  
