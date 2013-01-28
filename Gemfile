@@ -9,11 +9,13 @@ gem 'bootstrap-sass'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-# use sqlite3 for dev
-#gem 'sqlite3'
+group :development, :test do
+  gem 'sqlite3'
+end
 
-# and use pg for pushing to heroku
-gem 'pg'
+group :production do
+  gem 'pg'
+end
 
 gem 'json'
 
