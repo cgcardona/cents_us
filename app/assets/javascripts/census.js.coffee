@@ -161,6 +161,7 @@ class Census
   buildDom: ->
     $('#totalOutputContainer .totals').html('')
     $('#totalOutputContainer .totals').append($('<h2>United States</h2>'))
+    $('#totalOutputContainer .totals').append($('<p>Total population of the United States and the total size of each race and percentage of total population</p>'))
     _.each(@.populationTotals, (element, index, list) ->
       row = $('<div class="row"></div>')
       titleDiv = $('<div class="span3"></div>')
@@ -196,6 +197,7 @@ class Census
       # Loop over dataArr and build out the data on the page
       if element.type isnt 'Total'
         $(wrapperTitleDiv).append($('<h3></h3>').text(element.type))
+        $(wrapperTitleDiv).append($('<p>Breakdown of age groups per race living "under poverty"</p>'))
         tmpDataArr = []
         _.each(dataArr, (elt, ix, lt) ->
           row         = $('<div class="row"></div>')
